@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قصة حب عبد الغني ابرهيم - أح الذكريات</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Arabic Fonts (Amiri & Cairo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        roseGold: '#B76E79',
+                        deepRed: '#8B0000',
+                        romanticPink: '#FFF0F5',
+                        softPink: '#FFB6C1',
+                        accentGold: '#D4AF37'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        amiri: ['Amiri', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe6ea 50%, #fff0f3 100%);
+            overflow-x: hidden;
+        }
+
+        /* Floating Hearts Animation Background */
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0;
+            animation: floatUp 6s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.3) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Flip Card Styling */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffe6ea;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFB6C1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B76E79;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .glass-dark {
+            background: rgba(139, 0, 0, 0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(183, 110, 121, 0.2);
+        }
+    </style>
+</head>
+<body class="text-gray-800 relative min-h-screen selection:bg-roseGold selection:text-white">
+
+    <!-- Floating Background Canvas for Hearts -->
+    <div id="heartsContainer" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <!-- Header Navigation -->
+    <nav class="sticky top-0 z-40 glass shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-heart text-rose-500 text-2xl animate-pulse"></i>
+                <span class="font-bold text-xl text-deepRed tracking-wide font-amiri">حكايتنا</span>
+            </div>
+            <div class="flex gap-4 sm:gap-6 text-sm sm:text-base font-semibold text-gray-700">
+                <a href="#counter" class="hover:text-roseGold transition-colors">العداد</a>
+                <a href="#gallery" class="hover:text-roseGold transition-colors">الصور</a>
+              
+                <a href="#notes" class="hover:text-roseGold transition-colors">رسائلنا</a>
+                <a href="#secret" class="hover:text-roseGold transition-colors">السر</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 py-12 md:py-20 text-center px-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- Edit Couple Button -->
+            <button onclick="toggleEditCoupleModal()" class="mb-6 inline-flex items-center gap-2 bg-white/80 hover:bg-white text-roseGold px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm border border-pink-200 transition duration-300">
+                <i class="fa-solid fa-pen"></i> تعديل الأسماء وتاريخ البداية
+            </button>
+
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 mb-6">
+                <h1 id="partner1Display" class="text-4xl md:text-6xl font-extrabold text-deepRed font-amiri drop-shadow-sm">أحمد</h1>
+                <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-rose-500 text-white flex items-center justify-center text-2xl md:text-3xl shadow-lg transform hover:scale-110 transition duration-300 animate-bounce">
+                    ❤️
+                </div>
+                <h1 id="partner2Display" class="text-4xl md:text-6xl font-extrabold text-deepRed font-amiri drop-shadow-sm">سارة</h1>
+            </div>
+
+            <p class="text-lg md:text-2xl text-roseGold italic font-amiri max-w-xl mx-auto leading-relaxed">
+                "بحبك اوي يقرعتي وربنا يخليكي ليا وشوفي الباقي بق"
+            </p>
+        </div>
+    </section>
+
+    <!-- Days Together Counter Section -->
+    <section id="counter" class="relative z-10 max-w-5xl mx-auto px-4 mb-16">
+        <div class="glass rounded-3xl p-6 md:p-10 shadow-xl border border-rose-100 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2 font-amiri">بقالنا مع بعض</h2>
+            <p id="startDateDisplay" class="text-xs md:text-sm text-gray-500 mb-8">منذ 14 فبراير 2022</p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4">
+                <div class="bg-white/90 p-4 rounded-2xl shadow-sm border border-pink-100 flex flex-col items-center">
+                    <span id="years" class="text-3xl md:text-4xl font-extrabold text-rose-500 font-mono">0</span>
+                    <span class="text-xs text-gray-500 mt-1 font-semibold">سنة</span>
+                </div>
+                <div class="bg-white/90 p-4 rounded-2xl shadow-sm border border-pink-100 flex flex-col items-center">
+                    <span id="months" class="text-3xl md:text-4xl font-extrabold text-rose-500 font-mono">0</span>
+                    <span class="text-xs text-gray-500 mt-1 font-semibold">شهر</span>
+                </div>
+                <div class="bg-white/90 p-4 rounded-2xl shadow-sm border border-pink-100 flex flex-col items-center">
+                    <span id="days" class="text-3xl md:text-4xl font-extrabold text-rose-500 font-mono">0</span>
+                    <span class="text-xs text-gray-500 mt-1 font-semibold">يوم</span>
+                </div>
+                <div class="bg-white/90 p-4 rounded-2xl shadow-sm border border-pink-100 flex flex-col items-center">
+                    <span id="hours" class="text-3xl md:text-4xl font-extrabold text-rose-500 font-mono">0</span>
+                    <span class="text-xs text-gray-500 mt-1 font-semibold">ساعة</span>
+                </div>
+                <div class="bg-white/90 p-4 rounded-2xl shadow-sm border border-pink-100 flex flex-col items-center">
+                    <span id="minutes" class="text-3xl md:text-4xl font-extrabold text-rose-500 font-mono">0</span>
+                    <span class="text-xs text-gray-500 mt-1 font-semibold">دقيقة</span>
+                </div>
+                <div class="bg-white/90 p-4 rounded-2xl shadow-sm border border-pink-100 flex flex-col items-center">
+                    <span id="seconds" class="text-3xl md:text-4xl font-extrabold text-rose-500 font-mono">0</span>
+                    <span class="text-xs text-gray-500 mt-1 font-semibold">ثانية</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery / Memory Album -->
+    <section id="gallery" class="relative z-10 max-w-6xl mx-auto px-4 mb-20">
+        <div class="flex justify-between items-center mb-8 flex-wrap gap-4">
+            <div>
+                <h2 class="text-3xl font-bold text-deepRed font-amiri">ألبوم الذكريات 📸</h2>
+                <p class="text-sm text-gray-600">كل صورة بتحكي حكاية عشناها سوا</p>
+            </div>
+            <button onclick="toggleAddPhotoModal()" class="bg-rose-500 hover:bg-rose-600 text-white px-5 py-2.5 rounded-xl font-semibold shadow-md flex items-center gap-2 transition transform hover:-translate-y-0.5">
+                <i class="fa-solid fa-plus"></i> إضافة صورة جديدة
+            </button>
+        </div>
+
+        <!-- Photos Grid -->
+        <div id="photosGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <!-- Dynamic Content Loaded via JS -->
+        </div>
+    </section>
+
+    <!-- Our Story Timeline -->
+    <section id="timeline" class="relative z-10 max-w-4xl mx-auto px-4 mb-20">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-deepRed font-amiri">قصتنا محطّات ونظرات ✨</h2>
+            <p class="text-sm text-gray-600">محطات زُرعت في قلوبنا وحفرت ذكريات ما تبتنسيش</p>
+        </div>
+
+        <div class="relative border-r-2 border-rose-300 mr-4 md:mr-1/2 space-y-8 pr-6 md:pr-0">
+            <!-- Timeline Item 1 -->
+            <div class="relative flex flex-col md:flex-row items-start group">
+                <div class="absolute -right-9 top-1 w-6 h-6 rounded-full bg-rose-500 border-4 border-white shadow"></div>
+                <div class="bg-white p-5 rounded-2xl shadow-md border border-rose-100 max-w-lg transition hover:shadow-lg">
+                    <span class="text-xs font-bold text-roseGold bg-pink-50 px-2.5 py-1 rounded-full">2024-9-28</span>
+                    <h3 class="text-lg font-bold text-gray-800 mt-2">أول مرة شفتك فيها</h3>
+                    <p class="text-sm text-gray-600 mt-1"></p>كنت بتخانق معاكي يكلبه يقليله الادب.</p>
+                </div>
+            </div>
+
+            <!-- 
+
+            <!-- Timeline Item 2 -->
+            <div class="relative flex flex-col md:flex-row items-start group">
+                <div class="absolute -right-9 top-1 w-6 h-6 rounded-full bg-rose-500 border-4 border-white shadow"></div>
+                <div class="bg-white p-5 rounded-2xl shadow-md border border-rose-100 max-w-lg transition hover:shadow-lg">
+                    <span class="text-xs font-bold text-roseGold bg-pink-50 px-2.5 py-1 rounded-full">مش فاكر التاريخ</span>
+                    <h3 class="text-lg font-bold text-gray-800 mt-2">اول خروجه  </h3>
+                    <p class="text-sm text-gray-600 mt-1">ساعت لمه مسكت ايدك كانت توحفه اول حاجهة بتبق كدا كدا جميله وانتي محليها.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Love Notes / Reasons Why I Love You -->
+    <section id="notes" class="relative z-10 max-w-5xl mx-auto px-4 mb-20">
+        <div class="flex justify-between items-center mb-8 flex-wrap gap-4">
+            <div>
+                <h2 class="text-3xl font-bold text-deepRed font-amiri">رسائل بحبك عشان... 💌</h2>
+                <p class="text-sm text-gray-600">اقلب الكارت عشان تشوف الرسالة السرية!</p>
+            </div>
+            <button onclick="toggleAddNoteModal()" class="bg-roseGold hover:bg-rose-600 text-white px-5 py-2.5 rounded-xl font-semibold shadow-md flex items-center gap-2 transition">
+                <i class="fa-solid fa-pen-nib"></i> إضافة رسالة حب
+            </button>
+        </div>
+
+        <div id="notesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <!-- Dynamic Love Cards Loaded via JS -->
+        </div>
+    </section>
+
+    <!-- Romantic Secret Lock Box Section -->
+    <section id="secret" class="relative z-10 max-w-3xl mx-auto px-4 mb-24">
+        <div class="glass rounded-3xl p-8 md:p-12 text-center shadow-xl border border-pink-200">
+            <div class="w-16 h-16 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+                <i class="fa-solid fa-lock" id="lockIcon"></i>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-deepRed font-amiri mb-2">الصندوق السري المغلق 🔐</h2>
+            <p class="text-sm text-gray-600 mb-6">فيه رسالة خاصة جداً مكتوبة ليكي أنتي بس.. افتحي الصندوق</p>
+
+            <div id="secretMessageContainer" class="hidden bg-white/90 p-6 rounded-2xl border border-pink-200 shadow-inner my-4 transition-all duration-500">
+                <p class="font-amiri text-xl text-gray-800 leading-relaxed italic">
+                    "بكرهك يخاينه بس ولله بحبك وبدمنك وربنا يخليكي ليا يروح قلبي يخاينه يقرعه يوسخه." ❤️✨
+                </p>
+            </div>
+
+            <button id="toggleSecretBtn" onclick="toggleSecretMessage()" class="bg-gradient-to-r from-rose-500 to-roseGold hover:from-rose-600 hover:to-rose-700 text-white px-8 py-3 rounded-full font-bold shadow-lg transition transform hover:scale-105">
+                افتح الرسالة السرية ✉️
+            </button>
+        </div>
+    </section>
+
+    <!-- Floating Audio Player Bar -->
+    <div class="fixed bottom-4 right-4 left-4 md:left-auto md:right-6 z-50 md:max-w-md">
+        <div class="glass p-3 rounded-2xl shadow-2xl border border-white flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-rose-500 text-white flex items-center justify-center animate-spin" style="animation-duration: 4s;" id="vinylDisk">
+                    <i class="fa-solid fa-music"></i>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-800">أغنيتنا المفضلة 💕</h4>
+                    <p class="text-[10px] text-gray-500" id="songStatus">مشغّل الموسيقى</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button onclick="togglePlayMusic()" id="playBtn" class="w-9 h-9 rounded-full bg-rose-500 hover:bg-rose-600 text-white flex items-center justify-center shadow-md transition">
+                    <i class="fa-solid fa-play text-xs" id="playIcon"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Audio Source (Romantic Piano Sound Effect/Music Loop) -->
+        <audio id="bgMusic" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112676.mp3"></audio>
+    </div>
+
+    <!-- Lightbox Modal for Fullscreen Photo -->
+    <div id="lightboxModal" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-4 backdrop-blur-md" onclick="closeLightbox()">
+        <div class="max-w-4xl max-h-[90vh] relative" onclick="event.stopPropagation()">
+            <img id="lightboxImg" src="" class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl mx-auto object-contain">
+            <p id="lightboxCaption" class="text-white text-center mt-4 text-lg font-amiri"></p>
+            <button onclick="closeLightbox()" class="absolute -top-10 left-0 text-white text-2xl hover:text-rose-400">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Edit Couple & Date Modal -->
+    <div id="editCoupleModal" class="fixed inset-0 z-50 bg-black/50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl border border-pink-100">
+            <h3 class="text-xl font-bold text-deepRed mb-4 font-amiri">تعديل البيانات الأساسية</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">الاسم الأول</label>
+                    <input type="text" id="partner1Input" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-400 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">الاسم الثاني</label>
+                    <input type="text" id="partner2Input" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-400 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">تاريخ بداية العلاقة</label>
+                    <input type="date" id="startDateInput" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-400 text-sm">
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button onclick="toggleEditCoupleModal()" class="px-4 py-2 text-gray-500 text-sm font-semibold hover:bg-gray-100 rounded-xl">إلغاء</button>
+                <button onclick="saveCoupleData()" class="px-5 py-2 bg-rose-500 hover:bg-rose-600 text-white text-sm font-semibold rounded-xl shadow-md">حفظ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Photo Modal -->
+    <div id="addPhotoModal" class="fixed inset-0 z-50 bg-black/50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl border border-pink-100">
+            <h3 class="text-xl font-bold text-deepRed mb-4 font-amiri">إضافة صورة جديدة</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">اختيار صورة من جهازك</label>
+                    <input type="file" id="photoFileInput" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-rose-50 file:text-rose-600 hover:file:bg-rose-100">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">أو رابط صورة خارجية</label>
+                    <input type="url" id="photoUrlInput" placeholder="https://..." class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-400 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">وصف الذكرى / العنوان</label>
+                    <input type="text" id="photoCaptionInput" placeholder="مثال: رحلتنا لأسوان" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-400 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">التاريخ</label>
+                    <input type="date" id="photoDateInput" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-400 text-sm">
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button onclick="toggleAddPhotoModal()" class="px-4 py-2 text-gray-500 text-sm font-semibold hover:bg-gray-100 rounded-xl">إلغاء</button>
+                <button onclick="saveNewPhoto()" class="px-5 py-2 bg-rose-500 hover:bg-rose-600 text-white text-sm font-semibold rounded-xl shadow-md">إضافة الصورة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Love Note Modal -->
+    <div id="addNoteModal" class="fixed inset-0 z-50 bg-black/50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl border border-pink-100">
+            <h3 class="text-xl font-bold text-deepRed mb-4 font-amiri">إضافة رسالة حب جديدة</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">عنوان الكارت (من برة)</label>
+                    <input type="text" id="noteTitleInput" placeholder="مثال: ابتسامتك 🌸" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-400 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">الرسالة السرية (داخل الكارت)</label>
+                    <textarea id="noteContentInput" rows="3" placeholder="محتوى الرسالة..." class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-rose-400 text-sm"></textarea>
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button onclick="toggleAddNoteModal()" class="px-4 py-2 text-gray-500 text-sm font-semibold hover:bg-gray-100 rounded-xl">إلغاء</button>
+                <button onclick="saveNewNote()" class="px-5 py-2 bg-roseGold hover:bg-rose-600 text-white text-sm font-semibold rounded-xl shadow-md">حفظ الرسالة</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data State Management (Loaded from localStorage or defaults)
+        let state = {
+            partner1: localStorage.getItem('partner1') || "بيبو ",
+            partner2: localStorage.getItem('partner2') || "رودي القرعه",
+            startDate: localStorage.getItem('startDate') || "2024-10-14",
+            photos: JSON.parse(localStorage.getItem('photos')) || [
+                { id: 1, url: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=800', caption: 'أول خروجة سوا ☕', date: '2022-02-14' },
+                { id: 2, url: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800', caption: 'يوم ما مشينا تحت المطر 🌧️', date: '2022-11-20' },
+                { id: 3, url: 'https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?q=80&w=800', caption: 'احتفال عيد ميلادك 🎉', date: '2023-05-10' }
+            ],
+            notes: JSON.parse(localStorage.getItem('notes')) || [
+                { id: 1, title: 'ضحكتك 🌸', content: 'بحب ضحكتك اوي اوي يرودي بس لمه بتبق ف الشارع ببق عايز اموتك بس بحبك' },
+                { id: 2, title: 'قلبك الطيب 💖', content: 'بحبك اوي لمه ببق متخانق مع اهلي بتكوني جمبي كد وبرضو طيبه قلبك كبيره .' },
+                { id: 3, title: 'وجودك جانبي 🤝', content: 'دايماً بتشجعني وبتقف جنمبي في كل خطوة في حياتي.' }
+            ]
+        };
+
+        // Floating Hearts Particles
+        function createHeartParticle() {
+            const container = document.getElementById('heartsContainer');
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            const hearts = ['❤️', '💖', '💕', '💗', '🌸'];
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+            container.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+        setInterval(createHeartParticle, 400);
+
+        // Timer Calculation
+        function updateTimer() {
+            const start = new Date(state.startDate);
+            const now = new Date();
+            const diff = now - start;
+
+            if (isNaN(diff)) return;
+
+            const seconds = Math.floor((diff / 1000) % 60);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const daysTotal = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            const years = Math.floor(daysTotal / 365);
+            const months = Math.floor((daysTotal % 365) / 30);
+            const days = Math.floor((daysTotal % 365) % 30);
+
+            document.getElementById('years').innerText = years;
+            document.getElementById('months').innerText = months;
+            document.getElementById('days').innerText = days;
+            document.getElementById('hours').innerText = hours;
+            document.getElementById('minutes').innerText = minutes;
+            document.getElementById('seconds').innerText = seconds;
+        }
+        setInterval(updateTimer, 1000);
+
+        // Render Couple Data
+        function renderCoupleData() {
+            document.getElementById('partner1Display').innerText = state.partner1;
+            document.getElementById('partner2Display').innerText = state.partner2;
+            document.getElementById('startDateDisplay').innerText = `منذ ${state.startDate}`;
+            updateTimer();
+        }
+
+        // Render Photos Grid
+        function renderPhotos() {
+            const grid = document.getElementById('photosGrid');
+            grid.innerHTML = '';
+
+            state.photos.forEach(photo => {
+                const card = document.createElement('div');
+                card.className = "group relative bg-white rounded-2xl overflow-hidden shadow-md border border-pink-100 transition transform hover:-translate-y-1 hover:shadow-xl cursor-pointer";
+                card.onclick = () => openLightbox(photo.url, photo.caption);
+
+                card.innerHTML = `
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="${photo.url}" alt="${photo.caption}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
+                            <span class="text-white text-xs font-light"><i class="fa-solid fa-expand"></i> تكبير الصورة</span>
+                        </div>
+                    </div>
+                    <div class="p-4 flex justify-between items-center bg-white">
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-base">${photo.caption}</h4>
+                            <p class="text-xs text-gray-400 mt-1">${photo.date || ''}</p>
+                        </div>
+                        <button onclick="event.stopPropagation(); deletePhoto(${photo.id})" class="text-gray-300 hover:text-red-500 transition text-sm">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Render Love Notes
+        function renderNotes() {
+            const grid = document.getElementById('notesGrid');
+            grid.innerHTML = '';
+
+            state.notes.forEach(note => {
+                const card = document.createElement('div');
+                card.className = "flip-card h-48 w-full";
+                card.innerHTML = `
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass p-6 flex flex-col items-center justify-center border border-pink-200 shadow-sm">
+                            <div class="w-10 h-10 rounded-full bg-pink-100 text-rose-500 flex items-center justify-center mb-2">
+                                <i class="fa-solid fa-[#FFB6C1] fa-heart"></i>
+                            </div>
+                            <h3 class="font-bold text-lg text-deepRed">${note.title}</h3>
+                            <p class="text-xs text-roseGold mt-2">المس الكارت للفتح 🔄</p>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-rose-500 to-roseGold text-white p-6 flex flex-col justify-between items-center shadow-lg">
+                            <p class="font-amiri text-base leading-relaxed my-auto">${note.content}</p>
+                            <button onclick="deleteNote(${note.id})" class="text-white/70 hover:text-white text-xs underline mt-2">حذف</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Modals Toggle Handlers
+        function toggleEditCoupleModal() {
+            const modal = document.getElementById('editCoupleModal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+            if (!modal.classList.contains('hidden')) {
+                document.getElementById('partner1Input').value = state.partner1;
+                document.getElementById('partner2Input').value = state.partner2;
+                document.getElementById('startDateInput').value = state.startDate;
+            }
+        }
+
+        function toggleAddPhotoModal() {
+            const modal = document.getElementById('addPhotoModal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        function toggleAddNoteModal() {
+            const modal = document.getElementById('addNoteModal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        // Save Handlers
+        function saveCoupleData() {
+            state.partner1 = document.getElementById('partner1Input').value || state.partner1;
+            state.partner2 = document.getElementById('partner2Input').value || state.partner2;
+            state.startDate = document.getElementById('startDateInput').value || state.startDate;
+
+            localStorage.setItem('partner1', state.partner1);
+            localStorage.setItem('partner2', state.partner2);
+            localStorage.setItem('startDate', state.startDate);
+
+            renderCoupleData();
+            toggleEditCoupleModal();
+        }
+
+        function saveNewPhoto() {
+            const fileInput = document.getElementById('photoFileInput');
+            const urlInput = document.getElementById('photoUrlInput').value;
+            const caption = document.getElementById('photoCaptionInput').value || 'ذكرى جديدة ❤️';
+            const date = document.getElementById('photoDateInput').value || new Date().toISOString().split('T')[0];
+
+            const addPhotoAndRender = (imgSrc) => {
+                state.photos.unshift({
+                    id: Date.now(),
+                    url: imgSrc,
+                    caption: caption,
+                    date: date
+                });
+                localStorage.setItem('photos', JSON.stringify(state.photos));
+                renderPhotos();
+                toggleAddPhotoModal();
+            };
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    addPhotoAndRender(e.target.result);
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else if (urlInput) {
+                addPhotoAndRender(urlInput);
+            }
+        }
+
+        function deletePhoto(id) {
+            state.photos = state.photos.filter(p => p.id !== id);
+            localStorage.setItem('photos', JSON.stringify(state.photos));
+            renderPhotos();
+        }
+
+        function saveNewNote() {
+            const title = document.getElementById('noteTitleInput').value || 'حب بدون شروط';
+            const content = document.getElementById('noteContentInput').value || 'كل ثانية معاك بعمر جديد.';
+
+            state.notes.unshift({
+                id: Date.now(),
+                title: title,
+                content: content
+            });
+            localStorage.setItem('notes', JSON.stringify(state.notes));
+            renderNotes();
+            toggleAddNoteModal();
+        }
+
+        function deleteNote(id) {
+            state.notes = state.notes.filter(n => n.id !== id);
+            localStorage.setItem('notes', JSON.stringify(state.notes));
+            renderNotes();
+        }
+
+        // Secret Lock Message Toggle
+        function toggleSecretMessage() {
+            const container = document.getElementById('secretMessageContainer');
+            const btn = document.getElementById('toggleSecretBtn');
+            const icon = document.getElementById('lockIcon');
+
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+                btn.innerText = "إغلاق الرسالة 🔒";
+                icon.className = "fa-solid fa-lock-open text-rose-500";
+            } else {
+                container.classList.add('hidden');
+                btn.innerText = "افتح الرسالة السرية ✉️";
+                icon.className = "fa-solid fa-lock text-rose-500";
+            }
+        }
+
+        // Music Player Toggle
+        function togglePlayMusic() {
+            const audio = document.getElementById('bgMusic');
+            const icon = document.getElementById('playIcon');
+            const status = document.getElementById('songStatus');
+
+            if (audio.paused) {
+                audio.play();
+                icon.className = "fa-solid fa-pause text-xs";
+                status.innerText = "شغّالة الآن 🎶";
+            } else {
+                audio.pause();
+                icon.className = "fa-solid fa-play text-xs";
+                status.innerText = "متوقفة مؤقتاً";
+            }
+        }
+
+        // Lightbox Handler
+        function openLightbox(url, caption) {
+            document.getElementById('lightboxImg').src = url;
+            document.getElementById('lightboxCaption').innerText = caption;
+            const modal = document.getElementById('lightboxModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightboxModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Initialize App
+        window.onload = function() {
+            renderCoupleData();
+            renderPhotos();
+            renderNotes();
+        };
+    </script>
+</body>
+</html>
